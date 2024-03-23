@@ -12,8 +12,6 @@ class StatViewModel: ObservableObject {
     @Published private var model = StatModel()
     @Published var distanceUnit: DistanceUnit = .miles
     @Published var speedUnit: SpeedUnit = .mph
-    var convertMilesToKm = false
-    var convertKmToMiles = false
     
     var calories: Binding<Int> {
         Binding(get: {self.model.calories}, set: {newValue in self.model.calories = newValue})
