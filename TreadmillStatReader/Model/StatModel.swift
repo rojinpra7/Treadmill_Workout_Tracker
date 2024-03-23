@@ -8,10 +8,10 @@
 import Foundation
 
 struct StatModel {
-    var calories: (String, String) = ("", "Cal")
-    var distance: (String, DistanceUnit) = ("", .miles)
-    var time: (String, String) = ("", "hr:min:sec")
-    var speed: (String, SpeedUnit) = ("", .mph)
+    var calories: Int = 0
+    var distance: Double = 0.0
+    var time: TimeInterval = .zero
+    var speed: Double = 0.0
     
     
     
