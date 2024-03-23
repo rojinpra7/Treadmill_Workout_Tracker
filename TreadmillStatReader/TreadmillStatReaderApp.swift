@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct TreadmillStatReaderApp: App {
+    @StateObject private var viewModel = StatViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LaunchScreenView(viewModel: viewModel)
         }
     }
 }
