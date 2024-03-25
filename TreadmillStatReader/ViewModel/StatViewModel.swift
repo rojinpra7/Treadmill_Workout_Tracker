@@ -13,6 +13,10 @@ class StatViewModel: ObservableObject {
     @Published var distanceUnit: DistanceUnit = .miles
     @Published var speedUnit: SpeedUnit = .mph
     
+    var startDate: Binding<Date> {
+        Binding(get: {self.model.startDate}, set: {newValue in self.model.startDate = newValue})
+    }
+    
     var calories: Binding<Int> {
         Binding(get: {self.model.calories}, set: {newValue in self.model.calories = newValue})
     }
@@ -32,8 +36,8 @@ class StatViewModel: ObservableObject {
             })
     }
                 
-    var time: Binding<TimeInterval> {
-        Binding(get: {self.model.time}, set: {newValue in self.model.time = newValue})
+    var duration: Binding<TimeInterval> {
+        Binding(get: {self.model.duration}, set: {newValue in self.model.duration = newValue})
     }
     
     var speed: Binding<Double> {
@@ -52,9 +56,10 @@ class StatViewModel: ObservableObject {
     }
     
     func printStat() {
-        print(calories.wrappedValue)
-        print(model.distance)
-        print(time.wrappedValue)
-        print(model.speed)
+        print("Start Date: \(startDate.wrappedValue)")
+        print("Calories Burned: \(calories.wrappedValue)")
+        print("Distance Covered: \(model.distance)")
+        print("Workout Time: \(duration.wrappedValue)")
+        print("Speed: \(model.speed)")
     }
 }
