@@ -17,16 +17,16 @@ extension Formatter {
         return formatter
     }
     
-    static var timeFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .none
-        formatter.timeStyle = .medium
-        return formatter
-    }
+//    static var timeFormatter: DateFormatter {
+//        let formatter = DateFormatter()
+//        formatter.dateStyle = .none
+//        formatter.timeStyle = .medium
+//        return formatter
+//    }
     
     static var durationFormatter: DateComponentsFormatter{
         let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute]
+        formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .positional
         
         return formatter

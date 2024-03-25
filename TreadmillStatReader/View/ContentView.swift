@@ -20,6 +20,7 @@ struct ContentView: View {
      
     var body: some View {
         VStack {
+            Spacer()
             Text("Congratuations! You have reached your treadmill running goals for today. Confirm your stat and add it your Apple health to keep track of your fitness.")
             DatePicker("StartDate", selection: viewModel.startDate)
             StatCard(statName: "Calories", statValue: viewModel.calories, unit: $caloriesUnit)
@@ -33,6 +34,7 @@ struct ContentView: View {
                 }).buttonStyle(.bordered)
                 Button("Cancel", action: {}).buttonStyle(.bordered)
             }
+            Spacer()
         }
         .padding()
         .alert(isPresented: $confirmAlert, content: {

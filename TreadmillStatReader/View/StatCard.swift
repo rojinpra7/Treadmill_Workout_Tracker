@@ -17,7 +17,6 @@ struct StatCard<T:Hashable, Unit: MeasurementUnit>: View {
     var body: some View {
         HStack {
             Text(statName)
-            
             switch statName{
             case "Calories":
                 TextField("", value: $statValue, formatter: NumberFormatter()).textFieldStyle(.roundedBorder)
@@ -25,16 +24,19 @@ struct StatCard<T:Hashable, Unit: MeasurementUnit>: View {
                     Text("Cal")
                 }.pickerStyle(.segmented)
             case "Duration":
-                Button("\(Formatter.durationFormatter.string(from: selectedDate.timeIntervalSinceReferenceDate - Calendar.current.startOfDay(for: .now).timeIntervalSinceReferenceDate)! )") {
+                Button("\(formatTimeInterval(statValue))") {
                     self.isShowingPopover = true
-                }.buttonStyle(.bordered)
+                }
+                .buttonStyle(.bordered)
+                .onChange(of: selectedDate) {
+                    statValue =  selectedDate.timeIntervalSinceReferenceDate - Calendar.current.startOfDay(for: .now).timeIntervalSinceReferenceDate as! T
+                }
                 .popover(isPresented: $isShowingPopover) {
                     DatePickerWrapper(selectedDate: $selectedDate)
                         .padding()
                         .frame(width: 180, height: 150)
                         .presentationCompactAdaptation(.popover)
                 }
-                //TextField("", value: $statValue, formatter: timeFormatter).textFieldStyle(.roundedBorder)
                 Picker("Time", selection: $unit) {
                     Text("hh:mm:ss")
                 }.pickerStyle(.segmented)
@@ -53,6 +55,18 @@ struct StatCard<T:Hashable, Unit: MeasurementUnit>: View {
             default:
                 Text("Stat not found!")
             }
+        }
+    }
+    
+    func formatTimeInterval<V>(_ timeInterval: V) -> String {
+        // Assuming V is TimeInterval, you can convert it to a TimeInterval and then format it
+        if let timeInterval = timeInterval as? TimeInterval {
+            let hours = Int(timeInterval) / 3600
+            let minutes = Int(timeInterval) % 3600 / 60
+            let seconds = Int(timeInterval) % 60
+            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        } else {
+            return "" // Return empty string if the input is not a valid time interval
         }
     }
 }
