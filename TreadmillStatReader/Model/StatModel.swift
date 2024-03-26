@@ -14,4 +14,6 @@ struct StatModel {
     var duration: TimeInterval = 0.0
     var speed: Double = 0.0
     
+    
+    
 }
