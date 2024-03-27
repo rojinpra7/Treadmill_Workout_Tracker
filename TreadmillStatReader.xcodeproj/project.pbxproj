@@ -13,8 +13,9 @@
 		6E6F86C32BB12F35004E7B3B /* StatCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6F86C22BB12F35004E7B3B /* StatCard.swift */; };
 		6E6F86C52BB12FCF004E7B3B /* MeasurementUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6F86C42BB12FCF004E7B3B /* MeasurementUnit.swift */; };
 		6E6F86C72BB132F3004E7B3B /* Formatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6F86C62BB132F3004E7B3B /* Formatter+Extension.swift */; };
+		6E97353E2BB2A1EC0010E976 /* HKStoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E97353D2BB2A1EC0010E976 /* HKStoreModel.swift */; };
 		6EE7E1122BA23F3900414E22 /* TreadmillStatReaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE7E1112BA23F3900414E22 /* TreadmillStatReaderApp.swift */; };
-		6EE7E1142BA23F3900414E22 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE7E1132BA23F3900414E22 /* ContentView.swift */; };
+		6EE7E1142BA23F3900414E22 /* UserInputStatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE7E1132BA23F3900414E22 /* UserInputStatView.swift */; };
 		6EE7E1162BA23F3B00414E22 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EE7E1152BA23F3B00414E22 /* Assets.xcassets */; };
 		6EE7E1192BA23F3B00414E22 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EE7E1182BA23F3B00414E22 /* Preview Assets.xcassets */; };
 		6EE7E1232BA23F3C00414E22 /* TreadmillStatReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE7E1222BA23F3C00414E22 /* TreadmillStatReaderTests.swift */; };
@@ -47,9 +48,11 @@
 		6E6F86C22BB12F35004E7B3B /* StatCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatCard.swift; sourceTree = "<group>"; };
 		6E6F86C42BB12FCF004E7B3B /* MeasurementUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementUnit.swift; sourceTree = "<group>"; };
 		6E6F86C62BB132F3004E7B3B /* Formatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Formatter+Extension.swift"; sourceTree = "<group>"; };
+		6E97353C2BB2A0860010E976 /* TreadmillStatReader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TreadmillStatReader.entitlements; sourceTree = "<group>"; };
+		6E97353D2BB2A1EC0010E976 /* HKStoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HKStoreModel.swift; sourceTree = "<group>"; };
 		6EE7E10E2BA23F3900414E22 /* TreadmillStatReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TreadmillStatReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EE7E1112BA23F3900414E22 /* TreadmillStatReaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreadmillStatReaderApp.swift; sourceTree = "<group>"; };
-		6EE7E1132BA23F3900414E22 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6EE7E1132BA23F3900414E22 /* UserInputStatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputStatView.swift; sourceTree = "<group>"; };
 		6EE7E1152BA23F3B00414E22 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6EE7E1182BA23F3B00414E22 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6EE7E11E2BA23F3C00414E22 /* TreadmillStatReaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TreadmillStatReaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				6E47C2C72BA3846E0042D368 /* StatModel.swift */,
+				6E97353D2BB2A1EC0010E976 /* HKStoreModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -104,7 +108,7 @@
 		6E6F86BF2BB12EC3004E7B3B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				6EE7E1132BA23F3900414E22 /* ContentView.swift */,
+				6EE7E1132BA23F3900414E22 /* UserInputStatView.swift */,
 				6E6F86C02BB12EE5004E7B3B /* DatePickerWrapper.swift */,
 				6E6F86C22BB12F35004E7B3B /* StatCard.swift */,
 				6E6F86C42BB12FCF004E7B3B /* MeasurementUnit.swift */,
@@ -136,6 +140,7 @@
 		6EE7E1102BA23F3900414E22 /* TreadmillStatReader */ = {
 			isa = PBXGroup;
 			children = (
+				6E97353C2BB2A0860010E976 /* TreadmillStatReader.entitlements */,
 				6EE7E1112BA23F3900414E22 /* TreadmillStatReaderApp.swift */,
 				6E6F86BF2BB12EC3004E7B3B /* View */,
 				6E47C2C62BA384460042D368 /* Model */,
@@ -302,9 +307,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E97353E2BB2A1EC0010E976 /* HKStoreModel.swift in Sources */,
 				6E6F86C32BB12F35004E7B3B /* StatCard.swift in Sources */,
 				6E6F86C72BB132F3004E7B3B /* Formatter+Extension.swift in Sources */,
-				6EE7E1142BA23F3900414E22 /* ContentView.swift in Sources */,
+				6EE7E1142BA23F3900414E22 /* UserInputStatView.swift in Sources */,
 				6EE7E1122BA23F3900414E22 /* TreadmillStatReaderApp.swift in Sources */,
 				6E47C2CB2BA384990042D368 /* StatViewModel.swift in Sources */,
 				6EE7E13E2BA288F300414E22 /* LaunchScreenView.swift in Sources */,
@@ -471,12 +477,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TreadmillStatReader/TreadmillStatReader.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TreadmillStatReader/Preview Content\"";
 				DEVELOPMENT_TEAM = U5Z5J4K24B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "This will help the app to understand your workout data and suggest new workout based on your workout history.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "This will add your workout data in the Apple Health.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -500,12 +509,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TreadmillStatReader/TreadmillStatReader.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TreadmillStatReader/Preview Content\"";
 				DEVELOPMENT_TEAM = U5Z5J4K24B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "This will help the app to understand your workout data and suggest new workout based on your workout history.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "This will add your workout data in the Apple Health.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
