@@ -13,7 +13,7 @@ struct LaunchScreenView: View {
         NavigationStack{
             VStack {
                 Text("Welcome to Treadmill Stat Reader")
-                NavigationLink("Let's get started", destination: ContentView(viewModel: viewModel)).navigationBarBackButtonHidden(true)
+                NavigationLink("Let's get started", destination: UserInputStatView(viewModel: viewModel)).navigationBarBackButtonHidden(true)
             }
         }
         

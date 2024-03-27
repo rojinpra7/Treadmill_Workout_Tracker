@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-import HealthKit
+import HealthKitUI
 
-struct ContentView: View {
+struct UserInputStatView: View {
     // View statcard needs statname, statvalue, and unit
     @ObservedObject var viewModel: StatViewModel
     @State var caloriesUnit: CaloriesUnit = .cal
@@ -17,7 +17,18 @@ struct ContentView: View {
     @State var hourSelection: Int = 0
     @State var minuteSelection: Int = 0
     @State var seconds: Int = 0
+    @State var hkDataRequest = false
+    @State var authenticated = false
      
+    let healthStore = HKHealthStore()
+    
+    let allTypes: Set = [
+        HKQuantityType.workoutType(),
+        HKQuantityType(.activeEnergyBurned),
+        HKQuantityType(.distanceWalkingRunning),
+        HKQuantityType(.runningSpeed),
+    ]
+    
     var body: some View {
         VStack {
             Spacer()
@@ -30,7 +41,6 @@ struct ContentView: View {
             HStack {
                 Button("Confirm", action: {
                     confirmAlert = true
-                    viewModel.printStat()
                 }).buttonStyle(.bordered)
                 Button("Cancel", action: {}).buttonStyle(.bordered)
             }
@@ -38,14 +48,34 @@ struct ContentView: View {
         }
         .padding()
         .alert(isPresented: $confirmAlert, content: {
-            Alert(title: Text("Would you like to sync the data with Apple Health?"), primaryButton: .cancel(Text("Yes"), action: {}), secondaryButton: .default(Text("No"), action: {}))
+            Alert(title: Text("Would you like to sync the data with Apple Health?"), primaryButton: .cancel(Text("Yes"), action: {
+                viewModel.printStat()
+                do {
+                    if HKHealthStore.isHealthDataAvailable() {
+                        hkDataRequest = true
+                    }
+                } catch {
+                    fatalError("*** An unexpected error occured while requesting authorization: \(error.localizedDescription) ***")
+                }
+                
+            }), secondaryButton: .default(Text("No"), action: {}))
         })
         .onChange(of: viewModel.distanceUnit) {
             viewModel.printStat()
+        }
+        .healthDataAccessRequest(store: healthStore, shareTypes: allTypes, readTypes: allTypes, trigger: hkDataRequest) { result in
+            switch result {
+            case .success(_):
+                authenticated = true
+                print("User is authenticated.")
+                
+            case .failure(let error):
+                fatalError("*** An error occurred while requesting authentication: \(error) ***")
+            }
         }
     }
 }
 
 #Preview {
-    ContentView(viewModel: StatViewModel())
+    UserInputStatView(viewModel: StatViewModel())
 }
