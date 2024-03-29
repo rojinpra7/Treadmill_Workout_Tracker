@@ -17,7 +17,11 @@ class StatViewModel: ObservableObject {
         Binding(get: {self.model.startDate}, set: {newValue in self.model.startDate = newValue})
     }
     
-    var calories: Binding<Int> {
+    var endDate: Date {
+        startDate.wrappedValue.addingTimeInterval(duration.wrappedValue)
+    }
+    
+    var calories: Binding<Double> {
         Binding(get: {self.model.calories}, set: {newValue in self.model.calories = newValue})
     }
     
