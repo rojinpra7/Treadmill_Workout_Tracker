@@ -10,10 +10,10 @@ import Foundation
 struct StatModel {
     var startDate: Date = Date()
     var endDate: Date = Date()
-    var calories: Double = 0.0
-    var distance: Double = 0.0
-    var duration: TimeInterval = 0.0
-    var speed: Double = 0.0
+    var calories: Double = 200
+    var distance: Double = 5.0
+    var duration: TimeInterval = 200
+    var speed: Double = 6.7
     
     
     
