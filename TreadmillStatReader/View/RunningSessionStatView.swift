@@ -6,13 +6,18 @@
 //
 
 import SwiftUI
+import Combine
 
 struct RunningSessionStatView: View {
     @ObservedObject var viewModel: StatViewModel
-    @State var pause = false
+    @State var paused = false
+    //@State private var timeElapsed: TimeInterval = 0
+    //@State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
     var body: some View {
         VStack(spacing:.zero) {
             Spacer()
+            
             Text("\(String(format: "%.2f", viewModel.distance.wrappedValue))").font(.custom("Avenir-HeavyOblique", size: 80)).fontWeight(.heavy)
             Text("miles").font(.custom("Avenir-HeavyOblique", size: 25))
             Spacer()
@@ -32,15 +37,24 @@ struct RunningSessionStatView: View {
                     Text("\(String(format: "%.2f", viewModel.calories.wrappedValue))").font(.custom("Avenir-HeavyOblique", size: 25)).fontWeight(.heavy)
                 }
             }.padding(50)
+            // Circle phase animator
+            Circle()
+                .frame(width: 500)
+                .phaseAnimator([true, false, true, false, true, false]) { content, phase in
+                    content
+                        .opacity(phase ? 1 : 0.5)
+                        .scaleEffect(phase ? 1 : 1.5)
+                        .foregroundStyle(phase ? .blue : .red)
+                } animation: { phase in
+                        .spring.speed(0.5)
+                }
+            
             Spacer()
-            VStack {
-                Label("", systemImage: "timer").font(.largeTitle)
-                Text("\(String(format: "%.2f", viewModel .duration.wrappedValue))").font(.custom("Avenir-HeavyOblique", size: 50)).fontWeight(.heavy)
-            }
+        
+            Label("", systemImage: "timer").font(.largeTitle)
+            TimerView(viewModel: viewModel)
             Spacer()
-            Button("", systemImage: "pause.circle.fill") {
-                pause.toggle()
-            }.font(.system(size: 80)).foregroundStyle(.black).frame(alignment: .center)
+           
             Button("Connect Music") {
                 
             }
@@ -48,15 +62,10 @@ struct RunningSessionStatView: View {
             .background(.black)
             .foregroundStyle(.white)
             .clipShape(RoundedRectangle(cornerRadius: 7))
-            
         }
         .padding(.bottom, 1)
         .background(.green)
-        .onChange(of: pause) {
-            
-        }
         
-        //Text("Distance: 5mi").font(.title).fontDesign(.monospaced)
     }
 }
 
