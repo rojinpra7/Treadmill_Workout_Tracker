@@ -13,6 +13,7 @@ class StatViewModel: ObservableObject {
     @Published var distanceUnit: DistanceUnit = .miles
     @Published var speedUnit: SpeedUnit = .mph
     
+    
 //    static func createNewWorkout() -> StatModel {
 //        StatModel(startDate: $0, endDate: $1, calories: $2, distance: $3, duration: $4, speed: $5)
 //    }

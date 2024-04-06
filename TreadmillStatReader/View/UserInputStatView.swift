@@ -20,21 +20,7 @@ struct UserInputStatView: View {
     @State var hkDataRequest = false
     @State var authenticated = false
      
-    let healthStore = HKHealthStore()
-    
-    let allTypes: Set = [
-        HKQuantityType.workoutType(),
-        HKQuantityType(.activeEnergyBurned),
-        HKQuantityType(.distanceWalkingRunning),
-        HKQuantityType(.runningSpeed),
-    ]
-
-    var runningConfiguration : HKWorkoutConfiguration {
-        let runningConfiguration = HKWorkoutConfiguration()
-        runningConfiguration.activityType = .running
-        runningConfiguration.locationType = .outdoor
-        return runningConfiguration
-    }
+    let healthStore = HealthStoreSingleton.shared.healthStore
     
     var body: some View {
         VStack {
@@ -63,54 +49,9 @@ struct UserInputStatView: View {
                         return
                     }
                     hkDataRequest = true
-                    let run = HKWorkoutBuilder(healthStore: healthStore, configuration: runningConfiguration , device: .local())
+                    let runningWorkoutBuilder = RunningWorkoutBuilder(distance: viewModel.distance.wrappedValue, calories: viewModel.calories.wrappedValue, speed: viewModel.speed.wrappedValue, startDate: viewModel.startDate.wrappedValue, endDate: viewModel.endDate)
+                    runningWorkoutBuilder.manualWorkoutEntry()
                     
-                    //let startDate = Calendar.current.date(bySettingHour: 14, minute: 35, second: 0, of: Date())!
-                    //let endDate = Calendar.current.date(bySettingHour: 15, minute: 0, second: 0, of: Date())!
-                    let distanceType = HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!
-                    let distanceQuantity = HKQuantity(unit: .mile(), doubleValue: viewModel.distance.wrappedValue
-                    )
-                    let distanceSample = HKQuantitySample(type: distanceType, quantity: distanceQuantity, start: viewModel.startDate.wrappedValue, end: viewModel.endDate)
-                    
-                    let calorieType = HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!
-                    let energyBurned = HKQuantity(unit: .kilocalorie(), doubleValue: viewModel.calories.wrappedValue)
-                    let calorieSample = HKQuantitySample(type: calorieType, quantity: energyBurned, start: viewModel.startDate.wrappedValue, end: viewModel.endDate)
-                    
-                    let speedType = HKSampleType.quantityType(forIdentifier: .runningSpeed)!
-                    let speedQuantity = HKQuantity(unit: .mile().unitDivided(by: .hour()), doubleValue: viewModel.speed.wrappedValue)
-                    let speedSample = HKQuantitySample(type: speedType, quantity: speedQuantity, start: viewModel.startDate.wrappedValue, end: viewModel.endDate)
-                    
-                    run.beginCollection(withStart: viewModel.startDate.wrappedValue) { success, error in
-                        if success {
-                            print("Workout has begun at \(viewModel.startDate)")
-                        } else {
-                            print("Couldn't begin the workout: \(String(describing: error))")
-                        }
-                    }
-                    run.add([distanceSample, calorieSample]) { success, error in
-                        if success {
-                            print("\(distanceSample) saved to apple health")
-                            print("\(calorieSample) saved to apple health")
-                            //print("\(speedSample) saved to apple health")
-                        } else {
-                            print("Couldn't add the sample!")
-                        }
-                        
-                    }
-                    run.endCollection(withEnd: viewModel.endDate) { success, error in
-                        if success {
-                            print("Workout has ended at \(viewModel.endDate)")
-                        } else {
-                            print("Couldn't stop the workout: \(String(describing: error))")
-                        }
-                    }
-                    run.finishWorkout() { workout, error in
-                        if let workout = workout {
-                            print("\(workout) is saved.")
-                        } else {
-                            print("Unable to save the workout.")
-                        }
-                    }
                 } catch {
                     fatalError("*** An unexpected error occured while requesting authorization: \(error.localizedDescription) ***")
                 }
@@ -120,7 +61,7 @@ struct UserInputStatView: View {
         .onChange(of: viewModel.distanceUnit) {
             viewModel.printStat()
         }
-        .healthDataAccessRequest(store: healthStore, shareTypes: allTypes, readTypes: allTypes, trigger: hkDataRequest) { result in
+        .healthDataAccessRequest(store: healthStore, shareTypes: RunningWorkoutBuilder.allTypes, readTypes: RunningWorkoutBuilder.allTypes, trigger: hkDataRequest) { result in
             switch result {
             case .success(_):
                 authenticated = true

@@ -7,10 +7,14 @@
 
 import SwiftUI
 import Combine
+import CoreLocation
+import HealthKit
 
 struct RunningSessionStatView: View {
+    @StateObject var locationDataManager = LocationDataManager()
     @ObservedObject var viewModel: StatViewModel
     @State var paused = false
+    //let runningWorkoutBuilder = runningWork
     //@State private var timeElapsed: TimeInterval = 0
     //@State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -18,7 +22,7 @@ struct RunningSessionStatView: View {
         VStack(spacing:.zero) {
             Spacer()
             
-            Text("\(String(format: "%.2f", viewModel.distance.wrappedValue))").font(.custom("Avenir-HeavyOblique", size: 80)).fontWeight(.heavy)
+            Text("\(String(format: "%.2f", locationDataManager.distanceRunned))").font(.custom("Avenir-HeavyOblique", size: 80)).fontWeight(.heavy)
             Text("miles").font(.custom("Avenir-HeavyOblique", size: 25))
             Spacer()
             HStack {
@@ -37,6 +41,19 @@ struct RunningSessionStatView: View {
                     Text("\(String(format: "%.2f", viewModel.calories.wrappedValue))").font(.custom("Avenir-HeavyOblique", size: 25)).fontWeight(.heavy)
                 }
             }.padding(50)
+            
+            switch locationDataManager.locationDataManager.authorizationStatus {
+            case .authorizedWhenInUse:
+                Text("Latitude: \(locationDataManager.locationDataManager.location?.coordinate.latitude.description ?? "Error Loading")")
+                Text("Longitude: \(locationDataManager.locationDataManager.location?.coordinate.longitude.description ?? "Error Loading")")
+            case .denied, .restricted:
+                Text("Current location data was restricted or denied")
+            case .notDetermined:
+                Text("Location not determined")
+            default:
+                Text("No GPS")
+            }
+            
             // Circle phase animator
             Circle()
                 .frame(width: 500)
@@ -65,6 +82,16 @@ struct RunningSessionStatView: View {
         }
         .padding(.bottom, 1)
         .background(.green)
+        .onAppear {
+            guard HKHealthStore.isHealthDataAvailable() else {
+                print("HealthKit is not available on this device.")
+                return
+            }
+            //routeBuilder = HKWorkoutRouteBuilder(healthStore: healthStore, device: nil)
+            
+            
+            
+        }
         
     }
 }
