@@ -14,6 +14,7 @@ class LocationDataManager: NSObject, ObservableObject, CLLocationManagerDelegate
     @Published var authorizationStatus: CLAuthorizationStatus?
     @Published var location: CLLocationCoordinate2D?
     @Published var distanceRunned: Double = 0.0
+    @Published var currentPace: Double = 0.0
     var locationHistory: [CLLocation] = []
     var routeBuilder: HKWorkoutRouteBuilder?
     
@@ -21,7 +22,7 @@ class LocationDataManager: NSObject, ObservableObject, CLLocationManagerDelegate
         super.init()
         locationDataManager.delegate = self
         locationDataManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        //locationDataManager.distanceFilter = 5
+        locationDataManager.distanceFilter = 2
         locationDataManager.allowsBackgroundLocationUpdates = true
         locationDataManager.pausesLocationUpdatesAutomatically = true
         locationDataManager.startUpdatingLocation()
@@ -52,7 +53,7 @@ class LocationDataManager: NSObject, ObservableObject, CLLocationManagerDelegate
         // Insert code to handle location updates
         //print(locations)
         let filteredLocations = locations.filter { (location: CLLocation) -> Bool in
-            location.horizontalAccuracy <= 50.0
+            location.horizontalAccuracy >= 0 && location.horizontalAccuracy <= 40.0 && -location.timestamp.timeIntervalSinceNow < 10 //&& location.speedAccuracy <= 5
         }
         
         
@@ -68,13 +69,23 @@ class LocationDataManager: NSObject, ObservableObject, CLLocationManagerDelegate
                 locationHistory.append(newLocation)
             }
         }
+        // Distance logic
         if let newLocation = filteredLocations.last {
             if let lastLocation = locationHistory.last {
                 distanceRunned += newLocation.distance(from: lastLocation) / 1000
             }
-            locationHistory.append(newLocation)
+            if newLocation.speed > 0.0 {
+                print(newLocation.speed)
+                currentPace =  60 / (newLocation.speed * 2.23694) //min per mile pace
+                print(currentPace)
+                locationHistory.append(newLocation)
+            }
         }
         print("Distance Runned: \(distanceRunned)")
+        
+        // Current Pace logic
+        
+        
         
         routeBuilder?.insertRouteData(filteredLocations) { (success, error) in
             if !success {

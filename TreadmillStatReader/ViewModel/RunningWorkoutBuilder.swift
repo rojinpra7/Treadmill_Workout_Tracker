@@ -15,7 +15,7 @@ class RunningWorkoutBuilder {
     let calorieSample: HKQuantitySample
     let speedSample: HKQuantitySample
     let startDate: Date
-    let endDate: Date
+    let endDate: Date?
     
     
     init(distance: Double, calories: Double, speed: Double, startDate: Date, endDate: Date ) {
@@ -23,20 +23,21 @@ class RunningWorkoutBuilder {
         runningWorkoutBuilder = HKWorkoutBuilder(healthStore: healthStore, configuration: RunningWorkoutBuilder.runningConfiguration , device: .local())
         //let startDate = Calendar.current.date(bySettingHour: 14, minute: 35, second: 0, of: Date())!
         //let endDate = Calendar.current.date(bySettingHour: 15, minute: 0, second: 0, of: Date())!
+        self.startDate = startDate
         let distanceType = HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!
         let distanceQuantity = HKQuantity(unit: .mile(), doubleValue: distance)
-        self.distanceSample = HKQuantitySample(type: distanceType, quantity: distanceQuantity, start: startDate, end: endDate)
         
         let calorieType = HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!
         let energyBurned = HKQuantity(unit: .kilocalorie(), doubleValue: calories)
-        self.calorieSample = HKQuantitySample(type: calorieType, quantity: energyBurned, start: startDate, end: endDate)
         
         let speedType = HKSampleType.quantityType(forIdentifier: .runningSpeed)!
         let speedQuantity = HKQuantity(unit: .mile().unitDivided(by: .hour()), doubleValue: speed)
+        //if let endDate = endDate {
+        self.distanceSample = HKQuantitySample(type: distanceType, quantity: distanceQuantity, start: startDate, end: endDate)
+        self.calorieSample = HKQuantitySample(type: calorieType, quantity: energyBurned, start: startDate, end: endDate)
         self.speedSample = HKQuantitySample(type: speedType, quantity: speedQuantity, start: startDate, end: endDate)
-        
-        self.startDate = startDate
         self.endDate = endDate
+        //}
     }
     
     //func running
@@ -59,9 +60,9 @@ class RunningWorkoutBuilder {
                 print("Couldn't add the sample!")
             }
         }
-        runningWorkoutBuilder.endCollection(withEnd: self.endDate) { success, error in
+        runningWorkoutBuilder.endCollection(withEnd: self.endDate!) { success, error in
             if success {
-                print("Workout has ended at \(self.endDate)")
+                print("Workout has ended at \(self.endDate!)")
             } else {
                 print("Couldn't stop the workout: \(String(describing: error))")
             }
