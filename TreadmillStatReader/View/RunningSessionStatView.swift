@@ -14,7 +14,8 @@ struct RunningSessionStatView: View {
     @StateObject var locationDataManager = LocationDataManager()
     @ObservedObject var viewModel: StatViewModel
     @State var paused = false
-    //let runningWorkoutBuilder = runningWork
+    //let runningWorkoutBuilder : RunningWorkoutBuilder
+    //let session: HKWorkoutSession
     //@State private var timeElapsed: TimeInterval = 0
     //@State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -27,15 +28,19 @@ struct RunningSessionStatView: View {
             Spacer()
             HStack {
                 VStack {
-                    Label("", systemImage: "gauge.with.dots.needle.bottom.50percent").font(.title)
-                    Text("\(String(format: "%.2f", viewModel.speed.wrappedValue))").font(.custom("Avenir-HeavyOblique", size: 25)).fontWeight(.heavy)
+                    Label("", systemImage: "gauge.with.dots.needle.bottom.0percent").font(.title)
+                    let paceMinutes = Int(locationDataManager.currentPace)
+                    let paceSeconds = Int((locationDataManager.currentPace - Double(paceMinutes)) * 60)
+                    Text("\(String(format: "%02d:%02d", paceMinutes, paceSeconds))").font(.custom("Avenir-HeavyOblique", size: 25)).fontWeight(.heavy)
                 }
-                Spacer()
+//                VStack {
+//                    Label("", systemImage: "gauge.with.dots.needle.bottom.50percent").font(.title)
+//                    Text("\(String(format: "%.2f", viewModel.speed.wrappedValue))").font(.custom("Avenir-HeavyOblique", size: 25)).fontWeight(.heavy)
+//                }
                 VStack {
                     Label("", systemImage: "heart").font(.title)
                     Text("\(String(format: "%.2f", viewModel.calories.wrappedValue))").font(.custom("Avenir-HeavyOblique", size: 25)).fontWeight(.heavy)
                 }
-                Spacer()
                 VStack {
                     Label("", systemImage: "flame.fill").font(.title)
                     Text("\(String(format: "%.2f", viewModel.calories.wrappedValue))").font(.custom("Avenir-HeavyOblique", size: 25)).fontWeight(.heavy)
@@ -87,6 +92,10 @@ struct RunningSessionStatView: View {
                 print("HealthKit is not available on this device.")
                 return
             }
+//            do {
+//               session = try HKWorkoutSession(heal)
+//            }
+            //runningWorkoutBuilder = RunningWorkoutBuilder(distance: 0.0, calories: 0.0, speed: 0.0, startDate: Date.now, endDate: <#T##Date#>)
             //routeBuilder = HKWorkoutRouteBuilder(healthStore: healthStore, device: nil)
             
             
@@ -95,7 +104,6 @@ struct RunningSessionStatView: View {
         
     }
 }
-
 
 #Preview {
     RunningSessionStatView(viewModel: StatViewModel())
