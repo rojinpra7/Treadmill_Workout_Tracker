@@ -25,7 +25,7 @@ struct UserInputStatView: View {
     var body: some View {
         VStack {
             Spacer()
-            Text("Congratuations! You have reached your treadmill running goals for today. Confirm your stat and add it your Apple health to keep track of your fitness.")
+            Text("Manually add your workout stat and sync with your Apple health to keep track of your fitness.")
             DatePicker("StartDate", selection: viewModel.startDate)
             StatCard(statName: "Calories", statValue: viewModel.calories, unit: $caloriesUnit)
             StatCard(statName: "Distance", statValue: viewModel.distance, unit: $viewModel.distanceUnit)

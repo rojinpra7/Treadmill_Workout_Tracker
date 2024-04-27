@@ -15,11 +15,7 @@ struct LaunchScreenView: View {
                 Text("Welcome to Treadmill Stat Reader")
                 NavigationLink("Let's get started", destination: UserInputStatView(viewModel: viewModel))
                                //UserInputStatView(viewModel: viewModel)).navigationBarBackButtonHidden(true)
-            }.toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    
-                }
-            }
+            }.navigationBarBackButtonHidden(true)
         }
         
         

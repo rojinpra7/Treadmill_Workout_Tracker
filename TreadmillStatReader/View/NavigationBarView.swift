@@ -8,34 +8,63 @@
 import SwiftUI
 
 struct NavigationBarView: View {
-  var body: some View {
-      HStack(alignment: .top, spacing: 8) {
-          NavigationBarItem(image: "Home", textLabel: "Home")
-          NavigationBarItem(image: "Training", textLabel: "Training")
-          NavigationBarItem(image: "Running", textLabel: "Running")
-          NavigationBarItem(image: "Club", textLabel: "Club")
-          NavigationBarItem(image: "Progress", textLabel: "Progress")
-      }
-        .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
-        //.frame(width: 412, height: 80)
-        .background(Color(red: 0.95, green: 0.93, blue: 0.97));
+    @State private var selectedTab = "Home"
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            UserInputStatView(viewModel: StatViewModel())
+                .background(.cyan)
+                .tabItem {
+                    NavigationBarItem(image: "Home", textLabel: "Home", selectedTab: $selectedTab)
+                }
+                .tag("Home")
+            TrainingView()
+                .tabItem {
+                    NavigationBarItem(image: "Training", textLabel: "Training", selectedTab: $selectedTab)
+                }
+                .tag("Training")
+            RunningSessionView()
+                .tabItem {
+                    NavigationBarItem(image: "Running", textLabel: "Running", selectedTab: $selectedTab)
+                }
+                .tag("Running")
+            ClubView()
+                .tabItem {
+                    NavigationBarItem(image: "Club", textLabel: "Club", selectedTab: $selectedTab)
+                }
+                .tag("Club")
+            ProgressView()
+                .tabItem {
+                    NavigationBarItem(image: "Progress", textLabel: "Progress", selectedTab: $selectedTab)
+                }
+                .tag("Progress")
+        }
+        .onAppear {
+            let tabBarAppearance = UITabBarAppearance()
+            tabBarAppearance.configureWithOpaqueBackground()
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        }
   }
 }
 
 struct NavigationBarItem: View {
     let image: String
     let textLabel: String
+    @Binding var selectedTab: String
     var body: some View {
-        VStack(spacing: 4) {
-          Image("\(image)")
-            .padding(EdgeInsets(top: 4, leading: 20, bottom: 4, trailing: 20))
-          Text("\(textLabel)")
-            .font(Font.custom("Roboto", size: 12).weight(.semibold))
-            .tracking(0.50)
-            .foregroundColor(Color(red: 0.29, green: 0.27, blue: 0.31))
+        Button(action: {
+            selectedTab = textLabel
+        }) {
+            VStack(spacing: 4) {
+              Image("\(image)")
+                .renderingMode(.template)
+                .padding(EdgeInsets(top: 4, leading: 20, bottom: 4, trailing: 20))
+                .frame(height: 25)
+              Text("\(textLabel)")
+                .font(Font.custom("Roboto", size: 12).weight(.medium))
+                .tracking(0.50)
+            }
+            .foregroundColor(selectedTab == textLabel ? .black : Color(red: 0.29, green: 0.27, blue: 0.31))
         }
-        .padding(EdgeInsets(top: 12, leading: 0, bottom: 16, trailing: 0))
-        .frame(maxWidth: .infinity)
     }
 }
 
